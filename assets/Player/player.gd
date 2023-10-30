@@ -34,7 +34,7 @@ func change_state(new_state):
 func _process(delta):
 	get_input()	
 	
-func get_input():
+func get_input(): # Handles player input
 	thrust = Vector2.ZERO
 	if state in [DEAD, INIT]:
 		return
@@ -45,17 +45,17 @@ func get_input():
 		shoot()
 		
 	
-func _physics_process(delta):
+func _physics_process(delta): # Physics
 	constant_force = thrust
 	constant_torque = rotation_dir * spin_power
 	
-func _integrate_forces(physics_state):
+func _integrate_forces(physics_state): # Screen wrap
 	var xform = physics_state.transform
 	xform.origin.x = wrapf(xform.origin.x, 0, screensize.x)
 	xform.origin.y = wrapf(xform.origin.y, 0, screensize.y)
 	physics_state.transform = xform
 	
-func shoot():
+func shoot(): # Lets you shoot
 	if state == INVULNURABLE:
 		return
 	can_shoot = false
