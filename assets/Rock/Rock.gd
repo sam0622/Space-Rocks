@@ -7,7 +7,7 @@ var size
 var radius
 var scale_factor = 0.2
 
-func start(_position, _velocity, _size):
+func start(_position, _velocity, _size): #Logic for hitbox generatio 
 	position = _position
 	size = _size
 	mass = 1.5 * size
@@ -20,13 +20,13 @@ func start(_position, _velocity, _size):
 	angular_velocity = randf_range(-PI, PI)
 	$Explosion.scale = Vector2.ONE * 0.75 * size
 	
-func _integrate_forces(physics_state):
+func _integrate_forces(physics_state): # Screen wrap logic
 	var xform = physics_state.transform
 	xform.origin.x = wrapf(xform.origin.x, 0 - radius, screensize.x + radius)
 	xform.origin.y = wrapf(xform.origin.y, 0 - radius, screensize.y + radius)
 	physics_state.transform = xform
 
-func explode():
+func explode(): # Explodes the rock
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.hide()
 	$Explosion/AnimationPlayer.play("explosion")
