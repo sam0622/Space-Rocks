@@ -1,5 +1,8 @@
 extends RigidBody2D
 
+signal lives_changed
+signal dead
+
 @export var engine_power = 500
 @export var spin_power = 8000
 @export var bullet_scene :PackedScene
@@ -10,6 +13,8 @@ var can_shoot = true
 var screensize = Vector2.ZERO
 var thrust = Vector2.ZERO
 var rotation_dir = 0
+var reset_pos = false
+var lives = 0: set = set_lives
 
 enum{INIT, ALIVE, INVULNURABLE, DEAD}
 var state = INIT
@@ -19,16 +24,23 @@ func _ready():
 	state = ALIVE
 	$GunCooldown.wait_time = fire_rate
 
-func change_state(new_state):
+func change_state(new_state):# state engine
 	match new_state:
 		INIT:
 			$CollisionShape2D.set_deferred("disabled", true)
+			$Sprite2D.modulate.a = 0.5
 		ALIVE: 
 			$CollisionShape2D.set_deferred("disabled", false)
+			$Sprite2D.modulate.a = 1.0
 		INVULNURABLE:
 			$CollisionShape2D.set_deferred("disabled", true)
+			$Sprite2D.modulate.a = 0.5
+			$InvulnerabilityTimer.start()
 		DEAD:
 			$CollisionShape2D.set_deferred("disabled", true)
+			$Sprite2D.hide()
+			linear_velocity = Vector2.ZERO
+			dead.emit()
 	state = new_state
 	
 func _process(delta):
@@ -54,7 +66,10 @@ func _integrate_forces(physics_state): # Screen wrap
 	xform.origin.x = wrapf(xform.origin.x, 0, screensize.x)
 	xform.origin.y = wrapf(xform.origin.y, 0, screensize.y)
 	physics_state.transform = xform
-	
+	if reset_pos:
+		physics_state.transform.origin = screensize / 2
+		reset_pos = false
+		
 func shoot(): # Lets you shoot
 	if state == INVULNURABLE:
 		return
@@ -67,3 +82,34 @@ func shoot(): # Lets you shoot
 
 func _on_gun_cooldown_timeout():
 	can_shoot = true
+
+func reset():# reset lives to 3 and do other things
+	reset_pos = true
+	$Sprite2D.show()
+	lives = 3
+	change_state(ALIVE)
+
+func set_lives(value):# set num of lives left
+	lives = value
+	lives_changed.emit(lives)
+	if lives <= 0:
+		change_state(DEAD)
+	else:
+		change_state(INVULNURABLE)
+
+
+func _on_invulnerability_timer_timeout():
+	change_state(ALIVE)
+
+
+func _on_body_entered(body):# when you hit a rock go boom boom
+	if body.is_in_group("rocks"):
+		body.explode()
+		lives -= 1
+		explode()
+
+func explode():
+	$Explosion.show()
+	$Explosion/AnimationPlayer.play("explosion")
+	await $Explosion/AnimationPlayer.animation_finished
+	$Explosion.hide()

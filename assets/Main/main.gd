@@ -9,8 +9,6 @@ var playing = false
 
 func _ready():
 	screensize = get_viewport().get_visible_rect().size
-	for i in 3:
-		spawn_rock(3)
 		
 func spawn_rock(size, pos=null, vel=null):# Logic for rock spawning
 	if pos == null:
@@ -46,5 +44,32 @@ func new_game():
 	await $HUD/Timer.timeout
 	playing = true
 	
+func new_level():
+	level += 1
+	$HUD.show_message("Wave %s" % level)
+	for i in level:
+		spawn_rock(3)
 		
+func _process(delta):
+	if not playing:
+		return
+	if get_tree().get_nodes_in_group("rocks").size() == 0:
+		new_level()
+		
+func game_over():
+	playing = false
+	$HUD.game_over()
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		if not playing:
+			return
+		get_tree().paused = not get_tree().paused
+		var message = $HUD/VBoxContainer/Message
+		if get_tree().paused:
+			message.text = "Paused"
+			message.show()
+		else:
+			message.text = ""
+			message.hide()
 
