@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://hptmbwgmra2v"]
+[gd_scene load_steps=9 format=3 uid="uid://hptmbwgmra2v"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_iugas"]
 [ext_resource type="FontFile" uid="uid://thwmtpek2755" path="res://assets/kenvector_future_thin.ttf" id="1_wl0xr"]
+[ext_resource type="Texture2D" uid="uid://babmcs6ux0meh" path="res://assets/shield_gold.png" id="3_dl0ut"]
 [ext_resource type="Texture2D" uid="uid://b4ifsnbtyjd75" path="res://assets/player_small.png" id="3_euhbf"]
 [ext_resource type="Texture2D" uid="uid://byg5nev5qyy66" path="res://assets/play_button.png" id="4_7hv3f"]
+[ext_resource type="Texture2D" uid="uid://cfjookaosrowc" path="res://assets/bar_glass_200.png" id="4_m01es"]
 [ext_resource type="Texture2D" uid="uid://r8wsqt65ulos" path="res://assets/play_button_h.png" id="5_5t74n"]
+[ext_resource type="Texture2D" uid="uid://bifu1kjbyvdp5" path="res://assets/bar_green_200.png" id="5_7vwa4"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_iugas")
@@ -25,12 +28,27 @@ theme_override_constants/margin_bottom = 20
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Score" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_wl0xr")
 theme_override_font_sizes/font_size = 64
 text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_dl0ut")
+stretch_mode = 3
+
+[node name="ShieldBar" type="TextureProgressBar" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 0.75
+texture_over = ExtResource("4_m01es")
+texture_progress = ExtResource("5_7vwa4")
 
 [node name="LivesCounter" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

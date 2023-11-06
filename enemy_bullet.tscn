@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://xnteyyp88uyv"]
+
+[ext_resource type="Script" path="res://enemy_bullet.gd" id="1_8cay3"]
+[ext_resource type="Texture2D" uid="uid://cxm3w5biiufbn" path="res://assets/laser_green.png" id="2_qrwou"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j2xjj"]
+radius = 1.0
+height = 24.0
+
+[node name="EnemyBullet" type="Area2D" groups=["enemy_bullet"]]
+process_mode = 1
+script = ExtResource("1_8cay3")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2, -1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qrwou")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j2xjj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

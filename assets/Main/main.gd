@@ -46,11 +46,11 @@ func new_game():
 	playing = true
 	
 func new_level():
-	$EnemyTimer.start(randf_range(5, 10))
 	level += 1
 	$HUD.show_message("Wave %s" % level)
 	for i in level:
 		spawn_rock(3)
+	$EnemyTimer.start(randf_range(5, 10))
 
 func _process(delta):
 	if not playing:
@@ -74,6 +74,9 @@ func _input(event):
 		else:
 			message.text = ""
 			message.hide()
+
+
+
 
 func _on_enemy_timer_timeout():
 	var e = enemy_scene.instantiate()

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://assets/Main/main.gd" id="1_lt8pt"]
 [ext_resource type="PackedScene" uid="uid://t3ypifga63q6" path="res://assets/Player/player.tscn" id="2_e53u8"]
 [ext_resource type="PackedScene" uid="uid://bgc8fm2p3tmjm" path="res://assets/Rock/rock.tscn" id="2_gux1f"]
-[ext_resource type="PackedScene" uid="uid://m4jcx5fdpqx4" path="res://enemy.tscn" id="3_daodq"]
+[ext_resource type="PackedScene" uid="uid://bkohokw4hs7ym" path="res://enemy.tscn" id="3_daodq"]
 [ext_resource type="PackedScene" uid="uid://hptmbwgmra2v" path="res://hud.tscn" id="5_v7yuc"]
 
 [sub_resource type="Curve2D" id="Curve2D_lj8tu"]
@@ -40,5 +40,6 @@ one_shot = true
 
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
+[connection signal="shield_changed" from="Player" to="HUD" method="update_shield"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
