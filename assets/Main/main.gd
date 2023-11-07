@@ -26,6 +26,7 @@ func spawn_rock(size, pos=null, vel=null):# Logic for rock spawning
 	
 	
 func _on_rock_exploded(size, radius, pos, vel):# Logic for spawning small rocks from big rocks
+	$ExplosionSound.play()
 	if size <= 1:
 		return
 	for offset in [-1, 1]:
@@ -41,12 +42,16 @@ func new_game():
 	score = 0
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready!")
-	$Player.reset() 
+	$Player.reset()
 	await $HUD/Timer.timeout
+	$Music.play()
 	playing = true
 	
 func new_level():
 	level += 1
+	score += 1
+	$HUD.update_score(score)
+	$LevelupSound.play()
 	$HUD.show_message("Wave %s" % level)
 	for i in level:
 		spawn_rock(3)
@@ -60,7 +65,9 @@ func _process(delta):
 		
 func game_over():
 	playing = false
+	$Music.stop()
 	$HUD.game_over()
+	
 
 func _input(event):
 	if event.is_action_pressed("pause"):
