@@ -54,10 +54,12 @@ func _process(delta):
 	
 func get_input(): # Handles player input
 	thrust = Vector2.ZERO
+	$Exhaust.emitting = false
 	if state in [DEAD, INIT]:
 		return
 	if Input.is_action_pressed("thrust"):
 		thrust = transform.x * engine_power
+		$Exhaust.emitting = true
 		if not $EngineSound.playing:
 			$EngineSound.play()
 	else:
@@ -67,7 +69,7 @@ func get_input(): # Handles player input
 		shoot()
 		
 	
-func _physics_process(delta): # Physics
+func _physics_process(_delta): # Physics
 	constant_force = thrust
 	constant_torque = rotation_dir * spin_power
 	

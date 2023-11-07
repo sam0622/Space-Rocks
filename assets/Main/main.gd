@@ -57,7 +57,7 @@ func new_level():
 		spawn_rock(3)
 	$EnemyTimer.start(randf_range(5, 10))
 
-func _process(delta):
+func _process(_delta):
 	if not playing:
 		return
 	if get_tree().get_nodes_in_group("rocks").size() == 0:
