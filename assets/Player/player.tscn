@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://assets/player/player.gd" id="1_tf82g"]
 [ext_resource type="PackedScene" uid="uid://bwri6cqeskk3f" path="res://assets/bullet/bullet.tscn" id="2_gxyni"]
-[ext_resource type="Texture2D" uid="uid://bp2nnhv0snr1x" path="res://assets/player/player_ship.png" id="2_tlypu"]
+[ext_resource type="Texture2D" uid="uid://bp2nnhv0snr1x" path="res://assets/Player/player_ship.png" id="2_tlypu"]
 [ext_resource type="PackedScene" uid="uid://crwosbyhvqott" path="res://assets/explosion/explosion.tscn" id="4_nwol1"]
 [ext_resource type="AudioStream" uid="uid://d42ekom4vaat" path="res://assets/sounds/engine.ogg" id="5_45cwc"]
 [ext_resource type="AudioStream" uid="uid://cr0ex2u18p64a" path="res://assets/sounds/laser.ogg" id="5_y8rwl"]
@@ -11,6 +11,7 @@
 radius = 31.0
 
 [sub_resource type="Curve" id="Curve_whh5y"]
+resource_name = "curve"
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.252632), 0.0, 0.0, 0, 0]
 point_count = 2
 
